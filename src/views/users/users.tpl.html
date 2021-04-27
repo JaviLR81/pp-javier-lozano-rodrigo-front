@@ -1,0 +1,199 @@
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 585px;">      
+      <section class="content-header">
+        <div class="container-fluid">                                  
+          <section class="content">
+  
+            <div class="row" style="margin-bottom: 0.5em;">
+  
+              <div class="col-md-7">
+                <div class="card">
+                  <div class="card-body">
+                    <p style="font-size: 14px;">
+                      El paso inicial para poder usar el programa es crear un usuario, debido a que el formulario de abajo está protegido con JWT y con fin de simulación he creado una ruta que crea el usuario mostrado en el esquema, después podemos obtener un token por medio del botón Obtener Token (se cargan los usuarios en automático con JWT) enviando el email y password del mismo esquema como credenciales de login, una vez tengamos el token podemos empezar a probar el formulario de abajo y la tabla de consultas :D
+                    <p>                 
+                  </div>                
+                </div>                                  
+              </div>
+  
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <code>
+                      {
+                        name:"Roberto Perez",
+                        email:"r.perez@gmail.com",
+                        phone:"2221231245",
+                        password:"123456",
+                        age:23,
+                        gender:"male",
+                        hobby:"Play Piano"        
+                    }
+                    </code>
+                  </div>                
+                </div>                                  
+              </div>
+                        
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <button class="btn btn-primary"  ng-click="$ctrl.registerGenericUser()" style="margin-bottom: 0.2em;">Registrar Usuario</button>
+                    <button class="btn btn-success"  ng-click="$ctrl.login()" style="margin-bottom: 0.2em;">Obtener Token</button>
+                    <button class="btn btn-warning"  ng-click="$ctrl.logout()" style="margin-bottom: 0.2em;">Borrar Token</button>
+                  </div>                
+                </div>                                  
+              </div>                                                     
+            </div>
+            
+              
+            <div class="row">   
+              <div class="col-md-3">
+                  <div class="card">
+                      
+                      <div class="card-header">                
+                          <h3 class="card-title"> <span><i class="fas fa-qrcode"></i></span>Registro de usuarios</h3>
+                      </div>           
+                      
+                      <div class="card-body">                                         
+                        <form role="form" name="forma">
+                                                                                                                                                                                                       
+                            <div class="form-group">
+                              <label aria-hidden="true" class="requiredLabel" for="inputName">Nombre</label>
+                              <input id="inputName" type="text" class="form-control" placeholder="Nombre" name="nameU" ng-model="$ctrl.formScope.name" required>
+                            </div>
+                                                  
+                            <div class="form-group">
+                              <label for="inputGender">Género</label>    
+                              <select name="genderU" id="inputGender" class="form-control" placeholder="Seleccionar Género" ng-model="$ctrl.formScope.gender">                                                          
+                                <option  value="male" selected="selected">
+                                  Male
+                                </option>
+                          
+                                <option  value="female">
+                                  Female
+                                </option>                        
+                              </select>
+                            </div>
+                                                                                                                                
+                            <div class="form-group">
+                              <label for="inputEmail">Email</label>
+                              <input id="inputEmail" type="email" class="form-control" placeholder="Email" name="emailU" ng-model="$ctrl.formScope.email" required>                              
+                            </div>
+                          
+                            <div class="form-group">
+                              <label for="inputPhone">Teléfono</label>
+                              <input id="inputPhone" type="text" class="form-control" placeholder="10 dígitos" name="phoneU" ng-model="$ctrl.formScope.phone" required>
+                            </div>
+                          
+                            <div class="form-group">
+                              <label for="inputPassword">Password</label>
+                              <input id="inputPassword" type="password" class="form-control" placeholder="Password" name="passwordU" ng-model="$ctrl.formScope.password" required>
+                            </div>
+                          
+                            <div class="form-group">
+                              <label for="inputAge">Edad</label>
+                              <input id="inputAge" min="1" max="100" type="number" class="form-control" placeholder="Edad" name="ageU" ng-model="$ctrl.formScope.age" required>
+                            </div>
+                          
+                          
+                            <div class="form-group">
+                              <label for="inputHobby">Pasatiempo</label>
+                              <input id="inputHobby" type="text" class="form-control" placeholder="Pasatiempo" name="hobbyU" ng-model="$ctrl.formScope.hobby" required>
+                            </div>
+  
+                            
+                            <div class="form-group">                            
+                              <button class="btn btn-success"  ng-click="$ctrl.registerUser(forma)">Registrar</button>
+                            </div>                                                                                                                                                                                                                                             
+                        </form>                                                    
+                      </div>  
+            
+                      <div class="card-footer"></div>      
+                  </div>      
+              </div> 
+            
+              <div class="col-md-9">
+                  <div class="card">                      
+                      
+                      <div class="card-header">
+                          <h3 class="card-title"> <span><i class="fas fa-qrcode"></i></span> Listado de usuarios</h3>
+                      </div>           
+                      
+                      <div class="card-body">                
+                        <input class="form-control" style="margin-bottom: 0.5em;" type="text" ng-model="$ctrl.name" placeholder="Buscar por nombre" ng-keyup="$ctrl.filteredUsers()">
+                        <input class="form-control" style="margin-bottom: 0.5em;" type="text" ng-model="$ctrl.hobby" placeholder="Buscar por pasatiempo" ng-keyup="$ctrl.filteredUsers()">
+                        
+                        
+                          <table class="table table-bordered">
+                            <thead>
+                              <!-- <th>Id</th> -->
+                              <th>Nombre</th>
+                              <th>Género</th>
+                              <th>Edad</th>
+                              <th>Email</th>
+                              <th>Teléfono</th>
+                              <!-- <th>Password</th> -->
+                              <th>Pasatiempo</th>
+                              <th>Borrar</th>
+                            </thead>
+                            <tr ng-repeat="data in $ctrl.usersData">    
+                              <!-- <td>
+                                {{data._id}}
+                              </td> -->
+                              <td>
+                                {{data.name}}
+                              </td>
+                              <td>
+                                {{data.gender}}
+                              </td>
+                              <td>
+                                {{data.age}}
+                              </td>
+                              <td>
+                                {{data.email}}
+                              </td>
+                              <td>
+                                {{data.phone}}
+                              </td>
+                              <!-- <td>
+                                *******************
+                              </td> -->
+                              <td>
+                                {{data.hobby}}
+                              </td>
+                              <td>                                
+                                <button class="btn btn-danger" ng-click="$ctrl.deleteUser($index,data._id)">X</button>                                                                 
+                              </td>
+                            </tr>
+                          </table>                            
+                      </div>  
+            
+                      <div class="card-footer">                
+                      </div>      
+                  </div>
+              </div>
+            </div>
+            
+    
+    
+          </section>      
+        </div>
+      </section>      
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
